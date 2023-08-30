@@ -44,7 +44,7 @@ class DefaultErrorBoundary extends Component<
         <div className=" naxatw-flex naxatw-flex-col naxatw-items-center naxatw-justify-center naxatw-gap-1 naxatw-bg-pink-200 naxatw-p-4">
           <div className="title  naxatw-flex naxatw-flex-col naxatw-items-center naxatw-justify-center">
             <Icon
-              iconName="running_with_errors"
+              name="running_with_errors"
               className="naxatw-text-4xl naxatw-text-red-600"
             />
             <p className="naxatw-text-lg naxatw-font-bold naxatw-text-gray-800">
