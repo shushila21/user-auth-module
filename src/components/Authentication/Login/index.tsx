@@ -1,78 +1,83 @@
-import { useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
-import { useForm } from 'react-hook-form';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import Image from '@Components/RadixComponents/Image';
+import { useForm } from 'react-hook-form';
+import { useMutation } from '@tanstack/react-query';
+import { signInUser } from '@Services/authentication';
+import FullLogo from '@Assets/images/dmaps-logo-full.svg';
+import Image from '@Components/RadixComponents/Image';
 import Label from '@Components/common/FormUI/Label';
 import { Button } from '@Components/RadixComponents/Button';
-import InfoDialog from '@Components/common/InfoDialog';
-import Janakpur from '@Assets/images/janakpur.svg';
-// import FullLogo from '@Assets/images/damis-logo-full.svg';
-import { signInUser } from '@Services/authentication';
 import Icon from '@Components/common/Icon';
 import FormControl from '@Components/common/FormUI/FormControl';
 import Input from '@Components/common/FormUI/Input';
+import { FlexRow } from '@Components/common/Layouts';
+import Flex from '@Components/common/Layouts/Flex';
+import { useTypedDispatch } from '@Store/hooks';
+import { setUserState } from '@Store/actions/user';
 
 const initialState = {
-  username: '',
+  email: '',
   password: '',
+  keepSignedIn: false,
 };
 
 export default function Login() {
   const navigate = useNavigate();
+  const dispatch = useTypedDispatch();
   const [showPassword, setShowPassword] = useState<boolean>(false);
-
+  const [error, setError] = useState<Record<string, any> | null>(null);
+  // eslint-disable-next-line no-unused-vars
+  const [showErrorToggle, setShowErrorToggle] = useState<boolean>(false);
   const handleShow = () => {
     return setShowPassword(prev => !prev);
   };
 
-  const { mutate, isError, error } = useMutation({
+  const { mutate, isError } = useMutation<any, any, any, unknown>({
     mutationFn: signInUser,
     onSuccess: (res: any) => {
+      dispatch(setUserState({ user: res.data }));
       localStorage.setItem('token', res.data.token);
       navigate('/dashboard');
     },
+    onError: err => setError(err),
   });
 
   const { register, handleSubmit } = useForm({
     defaultValues: initialState,
   });
 
-  const onSubmit = (data: any) => mutate(data);
+  const onSubmit = (data: {
+    email: string;
+    password: string;
+    keepSignedIn: boolean;
+  }) => mutate(data);
+
+  useEffect(() => {
+    if (isError) {
+      setShowErrorToggle(true);
+    }
+  }, [isError, error]);
 
   return (
-    <div className="naxatw-flex naxatw-h-screen naxatw-w-full  naxatw-bg-blue-700">
-      <div className="naxatw-hidden naxatw-h-screen naxatw-w-full naxatw-overflow-hidden md:naxatw-block md:naxatw-w-[40%] ">
-        <img
-          src={Janakpur}
-          className="naxatw-h-full naxatw-w-full "
-          alt=""
-          style={{ objectFit: 'cover' }}
-        />
-      </div>
-      <div
-        className="naxatw-flex naxatw-h-screen naxatw-w-full naxatw-flex-col naxatw-items-center naxatw-justify-center
-          naxatw-bg-primary-50 md:naxatw-flex-1"
+    <>
+      <Flex
+        gap={5}
+        className="naxatw-h-screen naxatw-w-full naxatw-flex-col naxatw-items-center naxatw-justify-center
+        naxatw-bg-primary-50"
       >
-        {/* <Image src={FullLogo} /> */}
-        <h1>Insert Logo Here...</h1>
+        <Image src={FullLogo} />
+
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="naxatw-flex naxatw-w-[60%] naxatw-flex-col naxatw-gap-5 naxatw-pt-7"
         >
-          {isError ? (
-            <InfoDialog status="error">
-              {(error as Error).message || 'Something is not right.'}
-            </InfoDialog>
-          ) : null}
-
           <FormControl>
-            <Label htmlFor="username">Username or Email</Label>
+            <Label htmlFor="email">Email</Label>
             <Input
-              id="username"
-              type="type"
-              placeholder="Username or Email"
-              {...register('username', { required: true })}
+              id="email"
+              type="email"
+              placeholder="Email"
+              {...register('email', { required: true })}
             />
           </FormControl>
 
@@ -87,24 +92,35 @@ export default function Login() {
             <Icon
               name={showPassword ? 'visibility' : 'visibility_off'}
               className="naxatw-absolute naxatw-right-2 naxatw-top-9 naxatw-cursor-pointer
-               naxatw-text-xl naxatw-text-grey-800"
+              naxatw-text-xl naxatw-text-grey-800"
               onClick={() => handleShow()}
             />
           </FormControl>
 
-          <div className="naxatw-flex naxatw-items-center naxatw-justify-between">
-            <div className="naxatw-flex naxatw-items-center naxatw-gap-2 naxatw-pl-3  ">
-              <Input type="checkbox" id="check" className="" />
+          <FlexRow className="naxatw-items-center naxatw-justify-between">
+            <FlexRow className="naxatw-items-center naxatw-gap-2 naxatw-pl-3  ">
+              <Input type="checkbox" id="check" {...register('keepSignedIn')} />
               <Label htmlFor="check">Keep me signed in</Label>
-            </div>
-            <Button variant="ghost" className="naxatw-text-primary-500">
+            </FlexRow>
+            <Button
+              variant="ghost"
+              className="naxatw-text-primary-500"
+              onClick={() => {
+                navigate('/forgot-password');
+              }}
+              type="button"
+            >
               Forgot Your Password?
             </Button>
-          </div>
+          </FlexRow>
 
-          <Button type="submit">Sign In</Button>
+          <FlexRow className="naxatw-justify-center">
+            <Button className="naxatw-px-8" type="submit">
+              Sign In
+            </Button>
+          </FlexRow>
         </form>
-      </div>
-    </div>
+      </Flex>
+    </>
   );
 }

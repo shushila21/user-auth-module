@@ -5,8 +5,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import '@Assets/css/index.css';
 import '@Assets/css/tailwind.css';
-import store from './store';
 import App from './App';
+import { store } from './store';
 
 const queryClient = new QueryClient({
   defaultOptions: {

@@ -1,5 +1,4 @@
-import Dashboard from '@Views/Dashboard';
-import Authentication from '@Views/Authentication';
+import AuthenticationPage from '@Components/Authentication';
 import { IRoute } from './types';
 
 // Lazy loading
@@ -11,14 +10,14 @@ const appRoutes: IRoute[] = [
   {
     path: '/login',
     name: 'Login',
-    component: Authentication,
+    component: AuthenticationPage,
     authenticated: false,
   },
   {
-    path: '/',
-    name: 'Dashboard ',
-    component: Dashboard,
-    authenticated: true,
+    path: '/forgot-password',
+    name: 'Login',
+    component: AuthenticationPage,
+    authenticated: false,
   },
 ];
 
