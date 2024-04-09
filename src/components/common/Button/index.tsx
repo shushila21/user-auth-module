@@ -12,7 +12,8 @@ const buttonVariants = cva(
       variant: {
         default:
           'naxatw-bg-primary-400 naxatw-text-white hover:naxatw-shadow hover:naxatw-shadow-primary-400',
-        // destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90',
+        destructive:
+          'bg-destructive text-destructive-foreground hover:bg-destructive/90',
         outline:
           'naxatw-border naxatw-text-primary-400 naxatw-border-primary-400 naxatw-border-input hover:naxatw-shadow hover:naxatw-shadow-primary-100',
         secondary:

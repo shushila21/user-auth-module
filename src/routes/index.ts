@@ -1,10 +1,14 @@
+import { LazyExoticComponent } from 'react';
 import AuthenticationPage from '@Components/Authentication';
-import { IRoute } from './types';
 
-// Lazy loading
-//*  Please consider to rethink before implementing lazy loading
-// const HomePage = React.lazy(() => import('@Pages/HomePage'));
-// const DashboardPage = React.lazy(() => import('@Pages/DashboardPage'));
+interface IRoute {
+  id?: number;
+  path: string;
+  name: string;
+  component: LazyExoticComponent<() => JSX.Element> | (() => JSX.Element);
+  authenticated?: boolean;
+  children?: IRoute[];
+}
 
 const appRoutes: IRoute[] = [
   {

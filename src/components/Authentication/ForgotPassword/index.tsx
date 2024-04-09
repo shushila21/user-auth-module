@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import Label from '@Components/common/FormUI/Label';
-import { Button } from '@Components/RadixComponents/Button';
+import { Button } from '@Components/common/Button';
 import Icon from '@Components/common/Icon';
 import FormControl from '@Components/common/FormUI/FormControl';
 import Input from '@Components/common/FormUI/Input';

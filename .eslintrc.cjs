@@ -6,7 +6,6 @@ module.exports = {
   extends: [
     'airbnb',
     'plugin:react/recommended',
-    // 'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
   ],
   overrides: [],
@@ -15,7 +14,6 @@ module.exports = {
     ecmaVersion: 'latest',
     sourceType: 'module',
     project: ['./tsconfig.json'],
-
     extraFileExtensions: ['.json'],
     tsconfigRootDir: __dirname,
   },

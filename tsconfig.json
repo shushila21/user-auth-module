@@ -34,9 +34,7 @@
       "@Constants/*": ["constants/*"],
       "@Hooks/*": ["hooks/*"],
       "@Api/*": ["api/*"],
-      "@Schemas/*": ["schemas/*"],
       "@Services/*": ["services/*"],
-      "@Queries/*": ["api/queries/*"],
       "@Routes/*": ["routes/*"],
       "@Views/*": ["views/*"],
       "@Components/*": ["components/*"]
